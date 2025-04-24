@@ -1,40 +1,62 @@
 #include <stdio.h>
+#define TAM 10
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+int main(){
 
-int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+ //definindo as linhas e as colunas
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+ int tabuleiro[TAM][TAM] = {0};
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+int linha;
+int coluna;
+int linhaBase = 1; //linha do octaedro
+int colunaCentro = 2;
+int baseY = 7; //colunas do octaedro
+int baseX = 1;
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+//símbolo de cone
+// loop para construir o cone
+for (int i = 0; i < 2; i++) {           // 2 linhas de altura
+    for (int j = 0; j < 3; j++) {       // até 3 colunas de largura
+        if ((i == 0 && j == 1) ||       // vértice do cone
+            (i == 1)) {                 // linha da base
+            tabuleiro[baseY + i][baseX + j] = 5;
+        }
+    }
+}
+//desenho de cruz
+for (int i = 3; i <= 7; i++) {
+    for (int j = 3; j <= 7; j++) {
+        if (i == 5 || j == 5) {
+            tabuleiro[i][j] = 9;
+        }
+    }
+}
 
-    return 0;
+//desenhando octaedro
+for (int i = 0; i < 5; i++) {
+    int desloc = i <= 2 ? i : 4 - i;  // cria o efeito de simetria (0,1,2,1,0)
+    tabuleiro[linhaBase + i][colunaCentro - desloc] = 7;
+    tabuleiro[linhaBase + i][colunaCentro + desloc] = 7;
+}
+
+ //mostra as colunas e linhas do primeiro tabuleiro
+
+ printf("  ");
+
+ for(char c = 'A'; c < 'A' + TAM; c++){
+ printf("%c ", c);
+ }
+ printf("\n");
+
+for(int i = 0; i < TAM; i++){
+    printf("%2d ", i + 1);
+    for(int j = 0; j < TAM; j++){
+        printf("%d ", tabuleiro[i][j]);
+    }
+    printf("\n");
+}
+
+return 0;
 }
